@@ -46,7 +46,7 @@ impl<F: Field> ConstraintSynthesizer<F> for TestCircuit<F> {
 }
 
 
-fn bench_prove(cr: &mut Criterion) {
+fn bench_prove() {
     use ark_groth16::{
         create_random_proof, generate_random_parameters
     };
@@ -55,17 +55,15 @@ fn bench_prove(cr: &mut Criterion) {
     let c = TestCircuit::<Fr> {
         a: Fr::rand(rng),
         b: Fr::rand(rng),
-        num_variables: 100000,
+        num_variables: 2097152,
     };
 
     let params = generate_random_parameters::<Bls12_377, _, _>(c, rng).unwrap();
 
-    cr.bench_function(&"zexe_rand", |b| {
-        b.iter(|| create_random_proof(c.clone(), &params, rng).unwrap())
-    });
+    create_random_proof(c.clone(), &params, rng).unwrap();
 }
 
-fn bench_prove_2(cr: &mut Criterion) {
+fn bench_prove_2() {
     use ark_groth16::{
         create_random_proof, generate_random_parameters
     };
@@ -74,18 +72,21 @@ fn bench_prove_2(cr: &mut Criterion) {
     let c = TestCircuit::<Fr> {
         a: Fr::one(),
         b: Fr::one(),
-        num_variables: 100000,
+        num_variables: 2097152,
     };
 
     let params = generate_random_parameters::<Bls12_377, _, _>(c, rng).unwrap();
 
-    cr.bench_function(&"zexe_zero_one", |b| {
-        b.iter(|| create_random_proof(c.clone(), &params, rng).unwrap())
-    });
+    create_random_proof(c.clone(), &params, rng).unwrap();
 }
 
 
-criterion_group! {
+fn main() {
+    bench_prove();
+    bench_prove_2();
+}
+
+/*criterion_group! {
     name = zexe_rand;
     config = Criterion::default().sample_size(10);
     targets = bench_prove
@@ -97,4 +98,4 @@ criterion_group! {
     targets = bench_prove_2
 }
 
-criterion_main!(zexe_rand, zexe_zero_one);
+criterion_main!(zexe_rand, zexe_zero_one);*/

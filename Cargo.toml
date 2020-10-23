@@ -20,13 +20,13 @@ ark-ec = { git = "https://github.com/arkworks-rs/algebra", default-features = fa
 ark-serialize = { git = "https://github.com/arkworks-rs/algebra", default-features = false, features = [ "derive" ] }
 ark-poly = { git = "https://github.com/arkworks-rs/algebra", default-features = false }
 ark-std = { git = "https://github.com/arkworks-rs/utils", default-features = false }
-bench-utils = { git = "https://github.com/arkworks-rs/utils" }
+bench-utils = { git = "https://github.com/arkworks-rs/utils", features = [ "print-trace"] }
 ark-relations = { git = "https://github.com/arkworks-rs/snark", default-features = false }
 ark-snark = { git = "https://github.com/arkworks-rs/snark", default-features = false }
 rand = { version = "0.7", default-features = false }
 rayon = { version = "1", optional = true }
 criterion = "0.3.1"
-ark-groth16 = {git = "https://github.com/arkworks-rs/groth16/", default-features = false}
+ark-groth16 = {path = "../groth16/", default-features = false}
 ark-bls12-377 = { git = "https://github.com/arkworks-rs/curves", default-features = false, features = ["curve"] }
 
 [dev-dependencies]
@@ -35,7 +35,7 @@ csv = { version = "1" }
 [features]
 default = ["parallel"]
 std = ["ark-ff/std", "ark-ec/std", "ark-poly/std", "ark-relations/std", "ark-std/std", "ark-groth16/std" ]
-parallel = ["std", "ark-ff/parallel", "ark-poly/parallel", "ark-groth16/parallel", "rayon"]
+parallel = ["std", "ark-ec/parallel", "ark-ff/parallel", "ark-poly/parallel", "ark-groth16/parallel", "rayon"]
 print-trace = [ "bench-utils/print-trace" ]
 
 [[bench]]
